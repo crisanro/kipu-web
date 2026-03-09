@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Kipu | Facturación Electrónica en Ecuador - API y Facturador Web</title>
+    <meta name="description" content="Kipu es el mejor facturador en Ecuador. API de facturación electrónica fácil, rápida y económica.">
+    <meta name="keywords" content="facturacion electronica ecuador, api facturacion sri, facturador prepago">
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/" class="logo">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <span>Kipu</span>
+            </a>
+            
+            <button class="mobile-menu-btn" aria-label="Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="nav-links" id="navMenu">
+                <a href="#soluciones" class="nav-link">Soluciones</a>
+                <a href="#beneficios" class="nav-link">Beneficios</a>
+                <a href="#precios" class="nav-link">Precios</a>
+                <a href="/consultar" class="nav-link highlight">Consultar Factura</a>
+                
+                <div class="nav-actions">
+                    <a href="https://app.kipu.ec" class="btn btn-outline">Ingresar</a>
+                    <a href="https://app.kipu.ec/signup" class="btn btn-primary">Descargar APP</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h1>Conecta tu negocio al <span class="text-gradient">SRI</span> y olvídate del papeleo.</h1>
+                <p>La plataforma de <strong>facturación electrónica</strong> diseñada para negocios modernos. Integración vía API o manual, sin contratos mensuales.</p>
+                
+                <div class="hero-actions">
+                    <a href="https://app.kipu.ec/signup" class="btn btn-primary btn-lg">Empezar con 25 créditos gratis</a>
+                    <a href="/api-docs/" class="btn btn-outline">Leer API Docs</a>
+                </div>
+
+                <div class="hero-search-container" style="margin: 2rem 0; padding: 1.25rem; background: white; border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-md);">
+                    <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Consulta rápida de comprobantes:</p>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="claveHome" maxlength="49" placeholder="Pega aquí los 49 dígitos de la clave..." 
+                               style="flex: 1; padding: 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: monospace; outline: none; font-size: 0.9rem;">
+                        <button onclick="irAConsultar()" class="btn btn-primary" style="padding: 0 20px;">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="hero-tag">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Compatible con: <a href="https://wappti.app" target="_blank">Wappti</a> y <a href="https://komand.app" target="_blank">KomandApp</a></span>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="diagram-container">
+                    <div class="connector-line"></div>
+                    <div class="connector-dot"></div>
+                    <div class="node node-app">
+                        <div class="node-icon"><i class="fa-solid fa-store"></i></div>
+                        <div class="node-label">Tu Venta</div>
+                    </div>
+                    <div class="node node-kipu">
+                        <div class="node-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <div class="node-label">Kipu Auto</div>
+                    </div>
+                    <div class="node node-sri">
+                        <div class="node-icon"><i class="fa-solid fa-envelope-circle-check"></i></div>
+                        <div class="node-label">Factura SRI</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="stats-bar">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number text-gradient">+1 Millón</span>
+                    <span class="stat-label">Facturas Emitidas</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number text-gradient">99.9%</span>
+                    <span class="stat-label">Uptime Garantizado</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number text-gradient">200ms</span>
+                    <span class="stat-label">Tiempo de Respuesta</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="soluciones" class="features-expanded">
+        <div class="container">
+            <div class="section-header">
+                <h2>Todo lo que necesitas para facturar sin complicaciones</h2>
+                <p>Hemos simplificado el proceso tributario para que tú te dediques a vender.</p>
+            </div>
+
+            <div class="feature-block">
+                <div class="feature-text">
+                    <h3>Integración en Minutos, no Meses</h3>
+                    <p>Nuestra API REST es tan simple que un desarrollador junior puede implementarla en una tarde. Documentación clara y funcional.</p>
+                    <ul class="feature-list-check">
+                        <li><i class="fa-solid fa-check"></i> Documentación Swagger completa</li>
+                        <li><i class="fa-solid fa-check"></i> Entorno de pruebas Sandbox gratuito</li>
+                    </ul>
+                </div>
+                <div class="feature-visual">
+                    <div class="code-mockup">
+                        <span style="color:#f472b6">POST</span> /v1/invoices <br>
+                        { "client": { "ruc": "172..." }, "total": 20.00 } <br><br>
+                        <span style="color:#4ade80">// 200 OK (Firmado y Enviado)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-block reverse">
+                <div class="feature-text">
+                    <h3>Cumplimiento SRI Automatizado</h3>
+                    <p>Kipu se encarga de validar RUCs, calcular impuestos y firmar electrónicamente cada documento según la ley vigente.</p>
+                    <ul class="feature-list-check">
+                        <li><i class="fa-solid fa-check"></i> Validación automática de RUC</li>
+                        <li><i class="fa-solid fa-check"></i> Envío automático de XML y PDF</li>
+                    </ul>
+                </div>
+                <div class="feature-visual">
+                    <i class="fa-solid fa-shield-halved" style="font-size: 8rem; color: #cbd5e1;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="beneficios" class="benefits" style="background-color: #F8FAFC; padding: 8rem 0;">
+        <div class="container">
+            <div class="section-header">
+                <h2>¿Por qué elegir Kipu Ecuador?</h2>
+            </div>
+
+            <div class="carousel-container">
+                <button class="carousel-btn prev" data-target="benefitsScroll"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="carousel-scroll-area" id="benefitsScroll">
+                    <div class="carousel-item benefit-card">
+                        <div class="icon-box icon-green"><i class="fa-solid fa-wallet"></i></div>
+                        <h3>Sin Rentas Mensuales</h3>
+                        <p>Créditos prepago que nunca caducan. Paga solo lo que usas.</p>
+                    </div>
+                    <div class="carousel-item benefit-card">
+                        <div class="icon-box icon-blue"><i class="fa-solid fa-bolt"></i></div>
+                        <h3>Automatización Total</h3>
+                        <p>Facturas automáticas sincronizadas con tu sistema de cobro.</p>
+                    </div>
+                    <div class="carousel-item benefit-card">
+                        <div class="icon-box icon-purple"><i class="fa-solid fa-file-pdf"></i></div>
+                        <h3>PDFs Personalizables</h3>
+                        <p>Añade tu logo y colores corporativos a cada factura.</p>
+                    </div>
+                </div>
+                <button class="carousel-btn next" data-target="benefitsScroll"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section id="precios" class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2>Recargas transparentes</h2>
+            </div>
+
+            <div class="carousel-container">
+                <button class="carousel-btn prev" data-target="pricingScroll"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="carousel-scroll-area" id="pricingScroll">
+                    <div class="carousel-item pricing-card">
+                        <div class="plan-name">Inicial</div>
+                        <div class="plan-price"><span>$</span>6.50*</div>
+                        <div class="plan-credits">100 Créditos</div>
+                        <a href="https://app.kipu.ec/signup" class="btn btn-outline" style="width: 100%">Elegir Pack</a>
+                    </div>
+                    <div class="carousel-item pricing-card featured">
+                        <div class="popular-badge">MÁS VENDIDO</div>
+                        <div class="plan-name">Emprendedor</div>
+                        <div class="plan-price"><span>$</span>15.00*</div>
+                        <div class="plan-credits">250 Créditos</div>
+                        <a href="https://app.kipu.ec/signup" class="btn btn-primary" style="width: 100%">Recargar Ahora</a>
+                    </div>
+                    <div class="carousel-item pricing-card">
+                        <div class="plan-name">Empresa</div>
+                        <div class="plan-price"><span>$</span>50.00*</div>
+                        <div class="plan-credits">1,000 Créditos</div>
+                        <a href="https://app.kipu.ec/signup" class="btn btn-outline" style="width: 100%">Elegir Pack</a>
+                    </div>
+                </div>
+                <button class="carousel-btn next" data-target="pricingScroll"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <div class="section-header"><h2>Preguntas Frecuentes</h2></div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">¿Los créditos caducan?<i class="fa-solid fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>No. Tus créditos son para siempre hasta que los uses.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">¿Necesito firma electrónica?<i class="fa-solid fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>Sí, necesitas tu archivo .p12 para que Kipu pueda firmar por ti legalmente.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>Kipu</h3>
+                    <p>Simplificando la facturación en Ecuador.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Soporte</h4>
+                    <ul><li>soporte@kipu.ec</li></ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Kipu Ecuador. Desarrollado por Publikalo.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

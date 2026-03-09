@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Consultar Comprobante | Kipu Ecuador</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <style>
+        /* Estilos específicos para la página de consulta */
+        .search-page {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 100%);
+        }
+        .search-container {
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .search-box {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+        }
+        .clave-input {
+            width: 100%;
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-bottom: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .clave-input:focus { border-color: var(--primary-blue); }
+        
+        #resultadoArea { margin-top: 2rem; display: none; }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .status-autorizado { background: #DCFCE7; color: #166534; }
+        .status-proceso { background: #FEF3C7; color: #92400E; }
+        .status-error { background: #FEE2E2; color: #991B1B; }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/" class="logo">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <span>Kipu</span>
+            </a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Volver al Inicio</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="search-page">
+        <div class="container">
+            <div class="search-container">
+                <div class="section-header" style="margin-bottom: 2rem;">
+                    <h1>Consulta tu Factura</h1>
+                    <p>Ingresa la clave de acceso de 49 dígitos generada por el SRI.</p>
+                </div>
+
+                <div class="search-box">
+                    <input type="text" id="claveInput" class="clave-input" maxlength="49" placeholder="0000000000000000000000000000000000000000000000000">
+                    <button id="btnConsultar" class="btn btn-primary" style="width: 100%; height: 55px; font-size: 1.1rem;">
+                        <i class="fa-solid fa-magnifying-glass" style="margin-right: 10px;"></i> Buscar Comprobante
+                    </button>
+
+                    <div id="loader" class="loader"></div>
+
+                    <div id="resultadoArea">
+                        <hr style="margin: 2rem 0; border: 0; border-top: 1px solid var(--border);">
+                        
+                        <div id="statusBadge" class="status-badge"></div>
+                        <h3 id="emisorNombre" style="margin-bottom: 0.5rem;"></h3>
+                        <p id="infoFactura" style="color: var(--text-secondary); margin-bottom: 1.5rem;"></p>
+                        
+                        <div id="mensajeUsuario" style="margin-bottom: 1.5rem; padding: 1rem; border-radius: 8px; font-size: 0.95rem;"></div>
+
+                        <div id="descargasArea" style="display: flex; gap: 10px;">
+                            <a id="linkPdf" href="#" target="_blank" class="btn btn-outline" style="flex: 1; color: #ef4444; border-color: #ef4444;">
+                                <i class="fa-solid fa-file-pdf"></i> PDF
+                            </a>
+                            <a id="linkXml" href="#" target="_blank" class="btn btn-outline" style="flex: 1;">
+                                <i class="fa-solid fa-file-code"></i> XML
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer" style="padding: 3rem 0;">
+        <div class="container" style="text-align: center;">
+            <p>&copy; 2026 Kipu Ecuador. Servicio público de consulta.</p>
+        </div>
+    </footer>
+
+    <script src="js/consulta.js"></script>
+</body>
+</html>
+
