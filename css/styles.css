@@ -1301,3 +1301,147 @@ img { max-width: 100%; display: block; }
     .plan-price { font-size: 2.75rem; }
     .section-header h2 { font-size: 1.75rem; }
 }
+
+
+/* ============================================================
+   PÁGINA CONSULTA — FIXES RESPONSIVE
+   ============================================================ */
+
+/* La página de consulta necesita que el container no genere overflow */
+.search-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 100%);
+    /* FIX: asegurar que el contenido no se desborde */
+    overflow: hidden;
+}
+
+/* El container dentro de search-page debe ocupar todo el ancho disponible */
+.search-page > .container {
+    width: 100%;
+}
+
+.search-container {
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.search-box {
+    background: white;
+    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--gray-200);
+    /* FIX: evita que el contenido interior se desborde del card */
+    overflow: hidden;
+    min-width: 0;
+}
+
+/* Input de clave de acceso */
+.clave-input {
+    width: 100%;
+    /* FIX CLAVE: box-sizing garantiza que padding no sume al width */
+    box-sizing: border-box;
+    padding: 1rem;
+    font-family: monospace;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    /* FIX: en móvil el font-size grande puede causar zoom en iOS */
+    /* Mantener >= 16px evita el auto-zoom */
+}
+.clave-input:focus { border-color: var(--blue-600); }
+
+/* Área de resultado */
+#resultadoArea { margin-top: 2rem; display: none; }
+
+/* Status badges */
+.status-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+}
+.status-autorizado { background: #DCFCE7; color: #166534; }
+.status-proceso    { background: #FEF3C7; color: #92400E; }
+.status-error      { background: #FEE2E2; color: #991B1B; }
+
+/* Loader */
+.loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--blue-600);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+    display: none;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* Botones de descarga */
+#descargasArea {
+    display: flex;
+    gap: 10px;
+    /* FIX: en pantallas muy pequeñas apila los botones */
+    flex-wrap: wrap;
+}
+
+#descargasArea .btn {
+    /* FIX: flex: 1 con min-width 0 evita overflow */
+    flex: 1 1 120px;
+    min-width: 0;
+}
+
+/* ============================================================
+   CONSULTA — MOBILE OVERRIDES
+   ============================================================ */
+@media (max-width: 600px) {
+    .search-box {
+        /* FIX: reducir padding en pantallas pequeñas */
+        padding: 1.5rem 1.25rem;
+    }
+
+    .clave-input {
+        /* FIX: reducir letter-spacing y font-size en móvil para que no se desborde */
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        padding: 0.85rem 0.75rem;
+    }
+
+    #descargasArea {
+        /* FIX: en móvil muy pequeño, apilar verticalmente */
+        flex-direction: column;
+    }
+
+    #descargasArea .btn {
+        width: 100%;
+        flex: none;
+    }
+
+    /* FIX: reducir padding del container en la página de consulta */
+    .search-page > .container {
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 420px) {
+    .search-box {
+        padding: 1.25rem 1rem;
+        border-radius: var(--radius-md);
+    }
+
+    .clave-input {
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+}
