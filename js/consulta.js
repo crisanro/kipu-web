@@ -34,9 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Enviamos el token en los headers o params si tu API lo requiere para validar
             // Por ahora, lo validamos solo a nivel de interfaz para habilitar la búsqueda
             const response = await fetch(`https://core.kipu.ec/api/v1/public/consultar/${clave}`, {
-                headers: {
-                    'X-Captcha-Token': turnstileResponse // Ejemplo por si la API lo pide
-                }
+                method: 'POST', // IMPORTANTE: Cambiado de GET a POST
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    captchaToken: document.querySelector('[name="cf-turnstile-response"]').value,
+                    hpValue: document.getElementById('email_contacto_hp').value // El campo trampa
+                })
             });
             
             const res = await response.json();
