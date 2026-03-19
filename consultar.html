@@ -49,10 +49,17 @@
                         autocorrect="off"
                         spellcheck="false"
                     >
+                    
                     <button id="btnConsultar" class="btn btn-primary" style="width: 100%; height: 55px; font-size: 1.1rem;">
                         <i class="fa-solid fa-magnifying-glass"></i> Buscar Comprobante
                     </button>
-
+                    <div style="opacity: 0; position: absolute; top: 0; left: 0; height: 0; width: 0; z-index: -1;">
+                        <input type="text" id="email_contacto_hp" name="email_contacto_hp" tabindex="-1" autocomplete="off">
+                    </div>
+                
+                    <div id="turnstile-container" style="margin: 1.5rem 0; display: flex; justify-content: center;">
+                        <div class="cf-turnstile" data-sitekey="0x4AAAAAACtVpZB4n7hO4IQd"></div>
+                    </div>
                     <div id="loader" class="loader"></div>
 
                     <div id="resultadoArea">
@@ -84,6 +91,7 @@
         </div>
     </footer>
 
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script src="js/consulta.js"></script>
 </body>
 </html>
