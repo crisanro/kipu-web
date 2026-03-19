@@ -3,55 +3,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('claveInput');
     const loader = document.getElementById('loader');
     const resultadoArea = document.getElementById('resultadoArea');
-    
-    // CAPA 4: Referencia al Honeypot
     const hpField = document.getElementById('email_contacto_hp');
 
     const realizarConsulta = async (clave) => {
-        // CAPA 4: Si el honeypot tiene algo, es un bot.
-        if (hpField && hpField.value !== "") return;
+        // 1. CAPA 4: Honeypot (Trampa para bots)
+        if (hpField && hpField.value !== "") {
+            console.warn("Consulta bloqueada: Honeypot detectado.");
+            return;
+        }
 
-        // CAPA 5: Validación estricta antes de disparar el fetch
+        // 2. CAPA 5: Validación de formato
         if (clave.length !== 49 || !/^\d+$/.test(clave)) {
             alert('La clave de acceso debe tener exactamente 49 dígitos numéricos.');
             return;
         }
 
-        // CAPA 2: Verificar Turnstile (Cloudflare)
+        // 3. CAPA 2: Obtener token de Turnstile
         const turnstileResponse = document.querySelector('[name="cf-turnstile-response"]')?.value;
+        
         if (!turnstileResponse) {
-            alert('Por favor, completa la verificación de seguridad para continuar.');
+            alert('Por favor, completa la verificación de seguridad (reCAPTCHA/Turnstile).');
             return;
         }
 
-        // UI State: Cargando
+        // --- UI STATE: Cargando ---
         loader.style.display = 'block';
         resultadoArea.style.display = 'none';
         btn.disabled = true;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Buscando...';
 
         try {
-            // Enviamos el token en los headers o params si tu API lo requiere para validar
-            // Por ahora, lo validamos solo a nivel de interfaz para habilitar la búsqueda
+            console.log("Enviando petición POST a core.kipu.ec...");
+
             const response = await fetch(`https://core.kipu.ec/api/v1/public/consultar/${clave}`, {
-                method: 'POST', // IMPORTANTE: Cambiado de GET a POST
-                headers: { 'Content-Type': 'application/json' },
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
-                    captchaToken: document.querySelector('[name="cf-turnstile-response"]').value,
-                    hpValue: document.getElementById('email_contacto_hp').value // El campo trampa
+                    captchaToken: turnstileResponse,
+                    hpValue: hpField ? hpField.value : ""
                 })
             });
-            
-            const res = await response.json();
 
-            // Limpieza de UI
+            // Si la respuesta no es OK (ej. 403, 404, 500), lanzamos error para caer al catch
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.mensaje_usuario || `Error del servidor: ${response.status}`);
+            }
+
+            const res = await response.json();
+            console.log("Respuesta recibida:", res);
+
+            // --- PROCESAR RESULTADO ---
             loader.style.display = 'none';
             resultadoArea.style.display = 'block';
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Buscar Comprobante';
-
-            // Resetear el widget para la siguiente búsqueda (Seguridad proactiva)
-            if (window.turnstile) turnstile.reset();
 
             const badge = document.getElementById('statusBadge');
             const msgBox = document.getElementById('mensajeUsuario');
@@ -82,27 +88,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 descargas.style.display = 'none';
             }
+
         } catch (error) {
+            console.error("Error en la petición fetch:", error);
             loader.style.display = 'none';
+            alert(error.message || 'Error al conectar con el servidor. Intenta más tarde.');
+        } finally {
+            // Reestablecer botón y Captcha
             btn.disabled = false;
             btn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Buscar Comprobante';
-            alert('Error al conectar con el servidor. Por favor, intenta más tarde.');
+            if (window.turnstile) turnstile.reset();
         }
     };
 
-    // Eventos
+    // --- EVENTOS ---
     btn.addEventListener('click', () => realizarConsulta(input.value.trim()));
 
     input.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') realizarConsulta(input.value.trim());
     });
 
-    // Auto-búsqueda URL
+    // Auto-búsqueda URL (?id=...)
     const params = new URLSearchParams(window.location.search);
     const idUrl = params.get('id');
     if (idUrl && idUrl.length === 49) {
         input.value = idUrl;
-        // Pequeño delay para dejar que Turnstile cargue antes de la auto-consulta
-        setTimeout(() => realizarConsulta(idUrl), 500);
+        setTimeout(() => realizarConsulta(idUrl), 800); // Esperar a que Turnstile cargue
     }
 });
