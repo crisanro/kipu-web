@@ -43,18 +43,18 @@
                         id="claveInput"
                         class="clave-input"
                         maxlength="49"
-                        placeholder="0000000000000000000000000000000000000000000000000"
+                        placeholder="Ingrese los 49 dígitos"
                         inputmode="numeric"
-                        autocomplete="off"
-                        autocorrect="off"
-                        spellcheck="false"
                     >
                     
-                    <button id="btnConsultar" class="btn btn-primary" style="width: 100%; height: 55px; font-size: 1.1rem;">
+                    <button id="btnConsultar" class="btn btn-primary btn-inactive" style="width: 100%; height: 55px; font-size: 1.1rem; margin-bottom: 10px;" disabled>
                         <i class="fa-solid fa-magnifying-glass"></i> Buscar Comprobante
                     </button>
-                    <div style="opacity: 0; position: absolute; top: 0; left: 0; height: 0; width: 0; z-index: -1;">
-                        <input type="text" id="email_contacto_hp" name="email_contacto_hp" tabindex="-1" autocomplete="off">
+                
+                    <button id="btnWhatsApp" class="btn btn-outline" style="width: 100%; height: 55px; font-size: 1.1rem; color: #25D366; border-color: #25D366; display: none;">
+                        <i class="fa-brands fa-whatsapp"></i> Enviar a WhatsApp
+                    </button>
+                
                     </div>
                 
                     <div id="turnstile-container" style="margin: 1.5rem 0; display: flex; justify-content: center;">
