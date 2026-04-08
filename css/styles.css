@@ -96,7 +96,7 @@ img { max-width: 100%; display: block; }
 }
 .btn:hover::after { opacity: 0.08; }
 .btn:active { transform: scale(0.98); }
-
+.btn-inactive { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
 .btn-primary {
     background: var(--blue-600);
     color: var(--white);
